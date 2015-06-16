@@ -38,6 +38,7 @@ var instructions = []string{
 	"← or h    :move left",
 	"↑ or k    :move up",
 	"↓ or j    :move down",
+	"     r    :reset",
 	"     p    :previous level",
 	"     n    :next level",
 	"     d    :show debug console",
