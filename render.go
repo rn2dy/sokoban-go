@@ -10,8 +10,8 @@ var title = "-- Sokoban Level %d of %d --"
 
 const debugConsoleColor = termbox.ColorBlack
 const debugTextColor = termbox.ColorWhite
-const textColor = termbox.ColorYellow
-const backgroundColor = termbox.ColorWhite
+const textColor = termbox.ColorBlack
+const backgroundColor = termbox.ColorBlue
 const blockSize = 2
 const viewStartX = 1
 const viewStartY = 1
@@ -24,7 +24,7 @@ const instructionStartY = boardStartY
 var instructionStartX = 0
 
 var tokenColor = map[byte]termbox.Attribute{
-	'@': termbox.ColorBlue,
+	'@': termbox.ColorWhite,
 	'O': termbox.ColorYellow,
 	'#': termbox.ColorRed,
 	'X': termbox.ColorGreen,
@@ -34,6 +34,7 @@ var tokenColor = map[byte]termbox.Attribute{
 const boxinTokenColor = termbox.ColorBlack
 
 var instructions = []string{
+	"Instructions:",
 	"→ or l    :move right",
 	"← or h    :move left",
 	"↑ or k    :move up",
@@ -43,6 +44,18 @@ var instructions = []string{
 	"     n    :next level",
 	"     d    :show debug console",
 	"     esc  :quit",
+	"",
+	"The gola of this game to push all the boxes into the slot without been stuck somewhere.",
+}
+
+var colorInstructions = []struct {
+	token byte
+	text  string
+}{
+	{'@', "Player"},
+	{'O', "Box"},
+	{'#', "Wall"},
+	{'X', "Slot"},
 }
 
 // this function renders debug console and debug messages
@@ -98,9 +111,18 @@ func render(g *Game) {
 			}
 		}
 	}
-	instructionStartX = maxWidth*blockSize + 5
+
+	instructionStartX = maxWidth*blockSize + 10
 	for y, msg := range instructions {
 		printText(instructionStartX, instructionStartY+y, textColor, backgroundColor, msg)
+	}
+
+	for i, j := 0, 0; i < len(colorInstructions); i, j = i+1, j+2 {
+		intr := colorInstructions[i]
+		for k := 0; k < blockSize; k++ {
+			termbox.SetCell(instructionStartX+k, instructionStartY+len(instructions)+j+1, ' ', tokenColor[intr.token], tokenColor[intr.token])
+		}
+		printText(instructionStartX+blockSize*2, instructionStartY+len(instructions)+j+1, textColor, backgroundColor, intr.text)
 	}
 
 	termbox.Flush()
