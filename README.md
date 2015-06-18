@@ -1,6 +1,6 @@
 # Sokoban In Terminal With Go
 
-![alt text][https://raw.githubusercontent.com/rn2dy/sokoban-go/master/screenshot.png "screen shot"]
+![alt text](https://raw.githubusercontent.com/rn2dy/sokoban-go/master/screenshot.png "screen shot")
 
 ## Setup
 ```
