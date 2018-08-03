@@ -45,7 +45,7 @@ var instructions = []string{
 	"     d    :show debug console",
 	"     esc  :quit",
 	"",
-	"The gola of this game to push all the boxes into the slot without been stuck somewhere.",
+	"The goal of this game to push all the boxes into the slot without been stuck somewhere.",
 }
 
 var colorInstructions = []struct {
