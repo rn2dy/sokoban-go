@@ -31,6 +31,7 @@ type Cell struct {
 type Game struct {
 	level int
 	board [][]Cell
+	steps [][][]Cell
 	db    *ldb
 	x     int
 	y     int
@@ -53,6 +54,29 @@ func (g *Game) reset() {
 	g.whereami()
 }
 
+func (g *Game) record() {
+	step := make([][]Cell, len(g.board))
+	for i, cs := range g.board {
+		step[i] = make([]Cell, len(cs))
+		for j, c := range cs {
+			step[i][j] = c
+		}
+	}
+	g.steps = append(g.steps, step)
+	// record the last 100 steps
+	if len(g.steps) > 100 {
+		g.steps = g.steps[len(g.steps)-100:]
+	}
+}
+
+func (g *Game) undo() {
+	if len(g.steps) > 0 {
+		g.board = g.steps[len(g.steps)-1]
+		g.whereami()
+		g.steps = g.steps[:len(g.steps)-1]
+	}
+}
+
 func (g *Game) whereami() {
 	for y, cels := range g.board {
 		for x, cel := range cels {
@@ -73,7 +97,8 @@ func (g *Game) checkMove(dx, dy int) {
 		cell := g.board[y][x]
 		switch cell.obj {
 		case FLOOR, SLOT:
-			// move obj along the way foward
+			g.record()
+			// move obj along the way forward
 			for k > 0 {
 				xp, yp := x-dx, y-dy
 				g.board[y][x].obj = g.board[yp][xp].obj
@@ -108,6 +133,7 @@ func (g *Game) move(dir Direction) {
 	done := g.checkState()
 	if done {
 		g.nextLevel()
+		g.steps = g.steps[0:0]
 	}
 }
 
@@ -151,5 +177,7 @@ func (g *Game) toggleDebug() {
 // 	g := NewGame()
 // 	p(g)
 // 	g.move(RIGHT)
+// 	p(g)
+// 	g.undo()
 // 	p(g)
 // }

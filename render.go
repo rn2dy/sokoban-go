@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/nsf/termbox-go"
 )
 
@@ -39,13 +40,14 @@ var instructions = []string{
 	"← or h    :move left",
 	"↑ or k    :move up",
 	"↓ or j    :move down",
+	"     u    :undo",
 	"     r    :reset",
 	"     p    :previous level",
 	"     n    :next level",
 	"     d    :show debug console",
 	"     esc  :quit",
 	"",
-	"The gola of this game to push all the boxes into the slot without been stuck somewhere.",
+	"The goal of this game to push all the boxes into the slot without been stuck somewhere.",
 }
 
 var colorInstructions = []struct {
