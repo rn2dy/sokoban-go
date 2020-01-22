@@ -1,4 +1,4 @@
 sokoban
 *sokoban-go
 *.zip
-
+.idea/

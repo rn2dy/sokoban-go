@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/nsf/termbox-go"
 	"time"
+
+	"github.com/nsf/termbox-go"
 )
 
 const animationSpeed = 10 * time.Millisecond
@@ -36,12 +37,14 @@ func main() {
 				g.move(LEFT)
 			case ev.Key == termbox.KeyArrowRight || ev.Ch == 'l':
 				g.move(RIGHT)
-			case ev.Ch == 'n':
-				g.nextLevel()
-			case ev.Ch == 'p':
-				g.prevLevel()
+			case ev.Ch == 'u':
+				g.undo()
 			case ev.Ch == 'r':
 				g.reset()
+			case ev.Ch == 'p':
+				g.prevLevel()
+			case ev.Ch == 'n':
+				g.nextLevel()
 			case ev.Ch == 'd':
 				g.toggleDebug()
 			case ev.Key == termbox.KeyEsc:
